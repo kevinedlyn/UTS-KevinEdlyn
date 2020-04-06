@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Koperasi Peminjaman</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	
+	<script type="text/javascript">
+		
+		var pinjaman, lamacicilan, totalpinjaman =0, jumlahpinjamanAll=[], lamapinjamanAll=[], counter =0 ;
+
+		$( document ).ready(function() {
+		    $("#hitungpinjaman").click(function(){
+			    alert("Sistem sedang melakukan kalkulasi");
+				pinjaman = parseInt($("#jumlahpinjaman").val());
+				lamacicilan = parseInt($("#lamapinjaman").val());
+
+				$("#hasilpinjaman").html($("#jumlahpinjaman").val());
+				$("#lamacicilan").html($("#lamapinjaman").val());
+
+				if (lamacicilan >= 1 & lamacicilan <= 6) {
+					totalpinjaman = pinjaman + (((2/100)*pinjaman)*lamacicilan);
+					$("#totalpengembalian").html(totalpinjaman);
+				}
+				else if (lamacicilan >= 7 & lamacicilan <= 12) {
+					totalpinjaman = pinjaman + ((1.5/100)*pinjaman*lamacicilan);
+					$("#totalpengembalian").html(totalpinjaman);
+				}
+				else if (lamacicilan >= 13) {
+					totalpinjaman = pinjaman + ((1/100)*pinjaman*lamacicilan);
+					$("#totalpengembalian").html(totalpinjaman);
+				}
+				alert("Silahkan pindah ke tab Halaman Tampilan Peminjaman untuk melihat hasil kalkulasi");
+
+				jumlahpinjamanAll.push(totalpinjaman);
+				lamapinjamanAll.push(lamacicilan); 
+				counter = counter + 1;
+		    });
+
+		    $("#detailpinjaman").click(function(){
+		    	var cicilanperbulan = totalpinjaman / lamacicilan;
+		    	for (var i =0 ; i < lamacicilan; i++) {
+		    		document.write("Cicilan bulan ke -" + (i + 1)+ " : " +  cicilanperbulan + "<br>");			    	
+		    	}
+
+		    });
+
+		    $("#showall").click(function(){
+		    	for (var i = 0; i < counter; i++) {
+		    		document.write("Peminjam ke " + (i + 1) + " : <br>" );
+		    		document.write("Total pinjaman : " + jumlahpinjamanAll[i] + ", Lama cicilan : " + lamapinjamanAll[i] + "<br>");	
+			    	var cicilanperbulan = totalpinjaman / lamapinjamanAll[i];
+			    	for (var j =0 ; j < lamapinjamanAll[i]; j++) {
+			    		document.write("Cicilan bulan ke -" + (j + 1)+ " : " +  cicilanperbulan + "<br>");			    	
+			    	}
+
+			    	document.write("<br>");
+		    	}
+
+		    	
+
+		    });
+
+
+		});	
+
+	</script>
+
+</head>
+<body>
+	<div data-role = "page" id="page1">
+
+		<div data-role="header">
+			<h1>Halaman Inputan Pinjaman</h1>
+		</div>
+
+		<div data-role="navbar">
+
+			<ul>
+
+				<li><a href="#page1" class="ui-btn-active">Halaman Inputan Pinjaman</a></li>
+
+				<li><a href="#page2">Halaman Tampilan Pinjaman</a></li>
+
+			</ul>
+
+		</div>
+
+
+		<div role="main" class="ui-content">
+			<h3>Selamat datang di web peminjaman koperasi ini. Halaman ini dikhususkan untuk melayani peminjaman online. Silahkan melengkpai data anda dibawah ini :</h3>
+
+			<form>
+
+				<div class="ui-field-contain">
+
+					<label for="pinjaman">Jumlah pinjaman : </label>
+
+					<input type="text" name="jumlahpinjaman" id="jumlahpinjaman" value="0">
+
+				</div>
+
+				<div class="ui-field-contain">
+
+					<label for="lamapinjaman">Lama pinjaman : </label>
+
+					<input type="text" name="lamapinjaman" id="lamapinjaman" value="0">
+
+				</div>
+
+			</form>
+
+			<div class="ui-field-contain">
+
+				<button type="button" id="hitungpinjaman"> Hitung Pinjaman </button>
+				<button type="button" id="showall"> Tampilkan Semua Detail Pinjaman </button>
+
+			</div>
+
+
+		</div>
+
+	</div>
+
+	<div data-role = "page" id="page2" >
+		
+		<div data-role="header">
+			<h1>Halaman Tampilan Pinjaman</h1>
+		</div>
+
+		<div data-role="navbar">
+
+			<ul>
+
+				<li><a href="#page1">Halaman Inputan Pinjaman</a></li>
+
+				<li><a href="#page2" class="ui-btn-active">Halaman Tampilan Pinjaman</a></li>
+
+			</ul>
+
+		</div>
+
+		<div class="ui-field-contain">
+
+				<p>Pinjaman Anda : <span id="hasilpinjaman"> - </span> , cicilan : <span id="lamacicilan"> - </span></p>
+				<p>Total Pengembalian : <span id="totalpengembalian"> - </span></p>
+
+		</div>
+
+		<div class="ui-field-contain">
+
+				<button type="button" id="detailpinjaman"> Detail Pinjaman </button>
+
+		</div>
+
+
+	</div>
+
+</body>
+</html>
